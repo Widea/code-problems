@@ -6,10 +6,12 @@ import java.util.Map.Entry;
 public class EvenOccuringElement {
 	public static void main(String[] args) {
 		EvenOccuringElement eoe = new EvenOccuringElement();
-		int[] input = { 1, 2, 3, 3, 3, 4, 4, 4, 5, 6 };
+		int[] input = { 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6 };
 		Integer evenElement = eoe.getElement(input);
 		if (evenElement != null)
-			System.out.println(evenElement);
+			System.out.println("Method 1: "+evenElement);
+		System.out.println("Method 2: "+eoe.getElement2(input));
+		
 	}
 
 	public Integer getElement(int[] input) {
@@ -28,5 +30,24 @@ public class EvenOccuringElement {
 				return (Integer) pairs.getKey();
 		}
 		return null;
+	}
+	
+	// The XOR method
+	public Integer getElement2(int[] input) {
+		HashMap<Integer, Integer> counter = new HashMap<Integer, Integer>();
+		for (int i = 0; i < input.length; i++) {
+			if (!counter.containsKey(input[i]))
+				counter.put(input[i], 1);
+		}
+		int result = 0;
+		Iterator<Entry<Integer, Integer>> it = counter.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Integer, Integer> pairs = (Entry<Integer, Integer>) it.next();
+			result = result ^ pairs.getKey();
+		}
+	for(int i : input) {
+		result = result ^ i;
+	}
+	return result;
 	}
 }
